@@ -9,18 +9,29 @@ const getById = (id) => {
 }
 
 const getByVin = (vin) => {
-  return db('cars').where('vin',vin).first()
+  return db('cars').where('vin', vin).first()
 }
 
 const create = (car) => {
-  return db('cars').insert(car)
-  .then(([id]) => 
-    getById(id))
+  return db('cars').insert(car).then(([id]) => {
+    return getById(id)
+  })
+}
+
+const updateById = (id, car) => {
+  db('cars').where('id', id).update(car)
+  return getById(id)
+}
+
+const deleteById = (id) => {
+  return db('cars').where('id', id).del()
 }
 
 module.exports = {
-  getAll,
+  getAll, 
+  getByVin,
   getById,
   create,
-  getByVin,
-  }
+  updateById,
+  deleteById
+}
